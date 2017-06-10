@@ -32,22 +32,25 @@ var purchasePrompt = function(query){
         },
         {
             type: "input",
-            message: "How many items would you like ?",
+            message: "How many units would you like ?",
             name: "productQuantity"
         }
     ]).then(function(value){
         console.log("you selected id: " +value.productID);
         console.log("you selected amount: " +value.productQuantity);
         for(var i = 0; i < productsArr.length; i++){
-            if(value.productID == productsArr[i].id){
+            if(value.productID >= productsArr[i].id){
+                console.log("Insufficient quantity!");
+            }
+            else if(value.productID == productsArr[i].id){
                 console.log(productsArr[i].product_name);
                 var totalquant = productsArr[i].stock_quantity - value.productQuantity;
                 connection.query("UPDATE products SET ? WHERE ?", [{stock_quantity: totalquant}, {id: value.productID}], 
                 function(err) {
                     if(err) throw err;
                 });
-            }
-        }
+            };
+        };
     });
 };
 
