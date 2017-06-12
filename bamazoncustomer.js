@@ -39,11 +39,11 @@ var purchasePrompt = function(query){
         console.log("you selected id: " +value.productID);
         console.log("you selected amount: " +value.productQuantity);
         for(var i = 0; i < productsArr.length; i++){
-            if(value.productID >= productsArr[i].id){
+            if(value.productQuantity >= productsArr[i].stock_quantity){
                 console.log("Insufficient quantity!");
             }
             else if(value.productID == productsArr[i].id){
-                console.log(productsArr[i].product_name);
+                console.log("You have purchased: " +productsArr[i].product_name);
                 var totalquant = productsArr[i].stock_quantity - value.productQuantity;
                 connection.query("UPDATE products SET ? WHERE ?", [{stock_quantity: totalquant}, {id: value.productID}], 
                 function(err) {
